@@ -51,25 +51,36 @@ ___
 
 1. **Comparación de patrones:** Con base en sus mediciones, ¿cuántas
    veces más rápido fue el acceso secuencial respecto al aleatorio en
-   su equipo? ¿Ese resultado era el esperado según la teoría?\
-   R//: 
+   su equipo? ¿Ese resultado era el esperado según la teoría?
+
+   **R//**: En mi PC observé que el acceso secuencial fue entre 1.17x y 1.76x más rápido que el acceso aleatorio, dependiendo del tamaño de bloque. La mayor diferencia se dio con bloques de 16 KB, donde el secuencial alcanzó unos 1687 MiB/s frente a 955 MiB/s en aleatorio, es decir, aproximadamente 1.76 veces más rápido. Este resultado era el esperado según la teoría, ya que en acceso secuencial el número de accesos al disco es muy bajo ($M \approx 1$), mientras que en acceso aleatorio se hacen muchos accesos independientes, lo que incrementa el costo por la latencia acumulada.
 
 2. **Efecto del tamaño de bloque:** ¿Qué ocurrió con el throughput del
    acceso aleatorio a medida que aumentó el tamaño de bloque?
    ¿Por qué cree que sucede eso?
 
+   **R//:** En mis resultados, el throughput del acceso aleatorio aumentó bastante al incrementar el tamaño de bloque. Por ejemplo, pasó de aproximadamente 380 MiB/s con bloques de 4 KB a cerca de 2842 MiB/s con bloques de 256 KB. Esto sucede porque al leer bloques más grandes, en cada acceso se transfiere más información, por lo que se aprovecha mejor el disco. Según el modelo teórico, esto reduce el impacto de la latencia en el tiempo total, ya que el costo de transferencia empieza a dominar sobre el costo de acceso.
+
 3. **Teoría vs práctica:** Identifique un caso en sus resultados donde
    la medición empírica se alejó del modelo teórico. ¿A qué factor
    atribuye esa diferencia?
+
+   **R//:** En mis resultados, el throughput del acceso aleatorio aumentó bastante al incrementar el tamaño de bloque. Por ejemplo, pasó de aproximadamente 380 MiB/s con bloques de 4 KB a cerca de 2842 MiB/s con bloques de 256 KB. Esto sucede porque al leer bloques más grandes, en cada acceso se transfiere más información, por lo que se aprovecha mejor el disco. Yo creo que esto reduce el impacto de la latencia en el tiempo total, ya que el costo de transferencia empieza a dominar sobre el costo de acceso.
 
 4. **Tipo de disco:** Compare sus resultados con los valores de referencia
    de la tabla de la guía. ¿Su equipo se comportó como un HDD, un SSD
    SATA o un SSD NVMe?
 
+   **R//:** Según los resultados obtenidos en mi PC, el comportamiento corresponde  a un SSD NVMe, ya que logré throughput secuencial de hasta 3339 MiB/s. Estos valores están muy por encima de lo que se esperaría de un HDD o incluso de un SSD SATA. Esto indica que mi equipo tiene un dispositivo con alta velocidad de transferencia y baja latencia, lo cual coincide con las características teóricas de los NVMe.
+
 5. **Aplicación práctica:** Imagine que debe almacenar una tabla de
    estudiantes con 1 millón de registros. Con base en lo que midió,
    ¿preferiría leerla toda de forma secuencial o acceder a registros
    individuales de forma aleatoria? ¿Por qué?
+   
+   **R//:** Creo que depende, ya un millon de registros en mi computador serían muchos datos, y no sé qué tan bien se desempeñe mi PC, ahora bien, yo preferiría leerla de forma secuencial en lugar de accesos aleatorios, ya que esto reduce el número de accesos al disco y aprovecha mejor el throughput (como se vio en los resultado). Creo que en un escenario con 1 millón de registros, hacer accesos aleatorios implicaría un costo mucho mayor en tiempo, mientras que una lectura secuencial permitiría procesar los datos más rápido.
+
+
 
 ### **Conclusión**
 
